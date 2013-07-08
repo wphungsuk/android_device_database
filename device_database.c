@@ -8,6 +8,7 @@ typedef struct _supported_device {
   const char *build_id;
   const char *check_property_name;
   const char *check_property_value;
+  unsigned long int kernel_physical_offset_address;
 
   unsigned long int prepare_kernel_cred_address;
   unsigned long int commit_creds_address;
@@ -83,6 +84,17 @@ static supported_device supported_devices[] = {
   { DEVICE_NEXUS4_JDQ39,  "Nexus 4",    "JDQ39"           },
   { DEVICE_NEXUS_JOP40C,  "Galaxy Nexus",    "JOP40C"           },
   {
+    .device_id = DEVICE_C5302_12_0_A_1_211,
+    .device = "C5302",
+    .build_id = "12.0.A.1.211",
+
+    .prepare_kernel_cred_address = 0xc009ec08,
+    .commit_creds_address = 0xc009e72c,
+    .remap_pfn_range_address = 0xc011445c,
+    .ptmx_fops_address = 0xc0e3b8d0,
+  },
+
+  {
     .device_id = DEVICE_C5302_12_0_A_1_257,
     .device = "C5302",
     .build_id = "12.0.A.1.257",
@@ -105,6 +117,17 @@ static supported_device supported_devices[] = {
   },
 
   {
+    .device_id = DEVICE_C5303_12_0_A_1_211,
+    .device = "C5303",
+    .build_id = "12.0.A.1.211",
+
+    .prepare_kernel_cred_address = 0xc009ec08,
+    .commit_creds_address = 0xc009e72c,
+    .remap_pfn_range_address = 0xc011445c,
+    .ptmx_fops_address = 0xc0e3b8d0,
+  },
+
+  {
     .device_id = DEVICE_C5303_12_0_A_1_257,
     .device = "C5303",
     .build_id = "12.0.A.1.257",
@@ -124,6 +147,28 @@ static supported_device supported_devices[] = {
     .commit_creds_address = 0xc009e72c,
     .remap_pfn_range_address = 0xc011445c,
     .ptmx_fops_address = 0xc0e3bed8,
+  },
+
+  {
+    .device_id = DEVICE_C5306_12_0_A_1_211,
+    .device = "C5306",
+    .build_id = "12.0.A.1.211",
+
+    .prepare_kernel_cred_address = 0xc009ec08,
+    .commit_creds_address = 0xc009e72c,
+    .remap_pfn_range_address = 0xc011445c,
+    .ptmx_fops_address = 0xc0e3b8d0,
+  },
+
+  {
+    .device_id = DEVICE_C5306_12_0_A_1_257,
+    .device = "C5306",
+    .build_id = "12.0.A.1.257",
+
+    .prepare_kernel_cred_address = 0xc009ec08,
+    .commit_creds_address = 0xc009e72c,
+    .remap_pfn_range_address = 0xc011445c,
+    .ptmx_fops_address = 0xc0e3b890,
   },
 
   {
@@ -168,6 +213,28 @@ static supported_device supported_devices[] = {
     .commit_creds_address = 0xc009a984,
     .remap_pfn_range_address = 0xc0112668,
     .ptmx_fops_address = 0xc0e46ce0,
+  },
+
+  {
+    .device_id = DEVICE_C6602_10_3_A_0_423,
+    .device = "C6602",
+    .build_id = "10.3.A.0.423",
+
+    .prepare_kernel_cred_address = 0xc009a740,
+    .commit_creds_address = 0xc009a264,
+    .remap_pfn_range_address = 0xc0111f48,
+    .ptmx_fops_address = 0xc0e46fd0,
+  },
+
+  {
+    .device_id = DEVICE_C6603_10_3_A_0_423,
+    .device = "C6603",
+    .build_id = "10.3.A.0.423",
+
+    .prepare_kernel_cred_address = 0xc009a740,
+    .commit_creds_address = 0xc009a264,
+    .remap_pfn_range_address = 0xc0111f48,
+    .ptmx_fops_address = 0xc0e46fd0,
   },
 
   {
@@ -287,8 +354,9 @@ static supported_device supported_devices[] = {
   {
     .device_id = DEVICE_HTL21_1_29_970_1,
     .device = "HTL21",
-    .build_id = "JRO03Cro.aa.romver",
-    .check_property_name = "1.29.970.1",
+    .build_id = "JRO03C",
+    .check_property_name = "ro.aa.romver",
+    .check_property_value = "1.29.970.1",
 
     .prepare_kernel_cred_address = 0xc00ab9d8,
     .commit_creds_address = 0xc00ab4c4,
@@ -299,8 +367,9 @@ static supported_device supported_devices[] = {
   {
     .device_id = DEVICE_HTL22_1_07_970_4,
     .device = "HTL22",
-    .build_id = "JZO54Kro.aa.romver",
-    .check_property_name = "1.07.970.4",
+    .build_id = "JZO54K",
+    .check_property_name = "ro.aa.romver",
+    .check_property_value = "1.07.970.4",
 
     .prepare_kernel_cred_address = 0xc00b26a0,
     .commit_creds_address = 0xc00b218c,
@@ -311,8 +380,9 @@ static supported_device supported_devices[] = {
   {
     .device_id = DEVICE_HTL22_1_05_970_1,
     .device = "HTL22",
-    .build_id = "JZO54Kro.aa.romver",
-    .check_property_name = "1.05.970.1",
+    .build_id = "JZO54K",
+    .check_property_name = "ro.aa.romver",
+    .check_property_value = "1.05.970.1",
 
     .prepare_kernel_cred_address = 0xc00b2688,
     .commit_creds_address = 0xc00b2174,
@@ -323,13 +393,25 @@ static supported_device supported_devices[] = {
   {
     .device_id = DEVICE_HTX21_1_20_971_1,
     .device = "HTX21",
-    .build_id = "JRO03Cro.aa.romver",
-    .check_property_name = "1.20.971.1",
+    .build_id = "JRO03C",
+    .check_property_name = "ro.aa.romver",
+    .check_property_value = "1.20.971.1",
 
     .prepare_kernel_cred_address = 0xc00a6e54,
     .commit_creds_address = 0xc00a6940,
     .remap_pfn_range_address = 0xc00fa8b0,
     .ptmx_fops_address = 0xc0ccc0b4,
+  },
+
+  {
+    .device_id = DEVICE_IS15SH_01_00_04,
+    .device = "IS15SH",
+    .build_id = "01.00.04",
+
+    .prepare_kernel_cred_address = 0xc01c6178,
+    .commit_creds_address = 0xc01c643c,
+    .remap_pfn_range_address = 0xc0208980,
+    .ptmx_fops_address = 0xc0edaf90,
   },
 
   {
@@ -346,7 +428,9 @@ static supported_device supported_devices[] = {
   {
     .device_id = DEVICE_ISW11F_V25R45A,
     .device = "ISW11F",
-    .build_id = "V25R45A",
+    .build_id = "FIK700",
+    .check_property_name = "gsm.version.baseband",
+    .check_property_value = "V25R45A",
 
     .ptmx_fops_address = 0xc080e268,
   },
@@ -354,7 +438,9 @@ static supported_device supported_devices[] = {
   {
     .device_id = DEVICE_ISW11F_V27R47I,
     .device = "ISW11F",
-    .build_id = "V27R47I",
+    .build_id = "FIK700",
+    .check_property_name = "gsm.version.baseband",
+    .check_property_value = "V27R47I",
 
     .ptmx_fops_address = 0xc080e028,
   },
@@ -368,35 +454,59 @@ static supported_device supported_devices[] = {
   },
 
   {
+    .device_id = DEVICE_L01D_V20c,
+    .device = "L-01D",
+    .build_id = "IMM76D",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L01D-V20c-AUG-29-2012",
+  },
+
+  {
     .device_id = DEVICE_L01D_V20d,
     .device = "L-01D",
     .build_id = "IMM76D",
-    .check_property_name = "ro.build.version.incremental",
-    .check_property_value = "L01D-V20d.1e516ca5db",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L01D-V20d-FEB-15-2013",
   },
 
   {
     .device_id = DEVICE_L02E_V10c,
     .device = "L-02E",
     .build_id = "IMM76L",
-    .check_property_name = "ro.build.version.incremental",
-    .check_property_value = "L02E10c.1354024955",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L02E10c",
   },
 
   {
     .device_id = DEVICE_L02E_V10e,
     .device = "L-02E",
     .build_id = "IMM76L",
-    .check_property_name = "ro.build.version.incremental",
-    .check_property_value = "L02E10e.1366099439",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L02E10e",
+  },
+
+  {
+    .device_id = DEVICE_L02E_V20a,
+    .device = "L-02E",
+    .build_id = "JZO54K",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L02E20a",
+  },
+
+  {
+    .device_id = DEVICE_L06D_V10h,
+    .device = "L-06D",
+    .build_id = "IMM76D",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L06D-V10h-JUL-19-2012",
   },
 
   {
     .device_id = DEVICE_L06D_V10k,
     .device = "L-06D",
     .build_id = "IMM76D",
-    .check_property_name = "ro.build.version.incremental",
-    .check_property_value = "L06DV10k.4821c158",
+    .check_property_name = "ro.lge.swversion",
+    .check_property_value = "L06D-V10k-OCT-17-2012",
   },
 
   {
@@ -424,6 +534,17 @@ static supported_device supported_devices[] = {
   },
 
   {
+    .device_id = DEVICE_LT25I_9_1_A_1_145,
+    .device = "LT25i",
+    .build_id = "9.1.A.1.145",
+
+    .prepare_kernel_cred_address = 0xc0097de8,
+    .commit_creds_address = 0xc009790c,
+    .remap_pfn_range_address = 0xc010dbc4,
+    .ptmx_fops_address = 0xc0d032b8,
+  },
+
+  {
     .device_id = DEVICE_LT25I_9_1_A_1_142,
     .device = "LT25i",
     .build_id = "9.1.A.1.142",
@@ -443,6 +564,28 @@ static supported_device supported_devices[] = {
     .commit_creds_address = 0xc0097a44,
     .remap_pfn_range_address = 0xc010dcfc,
     .ptmx_fops_address = 0xc0d032f8,
+  },
+
+  {
+    .device_id = DEVICE_LT28H_6_2_B_0_211,
+    .device = "LT28h",
+    .build_id = "6.2.B.0.211",
+
+    .prepare_kernel_cred_address = 0xc00c94f8,
+    .commit_creds_address = 0xc00c901c,
+    .remap_pfn_range_address = 0xc014d170,
+    .ptmx_fops_address = 0xc117e328,
+  },
+
+  {
+    .device_id = DEVICE_LT26I_6_2_B_0_200,
+    .device = "LT26i",
+    .build_id = "6.2.B.0.200",
+
+    .prepare_kernel_cred_address = 0xc00b19c8,
+    .commit_creds_address = 0xc00b14ec,
+    .remap_pfn_range_address = 0xc0135640,
+    .ptmx_fops_address = 0xc0cc37e8,
   },
 
   {
@@ -475,7 +618,7 @@ static supported_device supported_devices[] = {
     .prepare_kernel_cred_address = 0xc00b262c,
     .commit_creds_address = 0xc00b2150,
     .remap_pfn_range_address = 0xc01362a4,
-    .ptmx_fops_address = 0xc0b86ef0,
+    .ptmx_fops_address = 0xc0cc3dc0,
   },
 
   {
@@ -656,6 +799,8 @@ static supported_device supported_devices[] = {
     .device = "SH-04E",
     .build_id = "01.00.02",
 
+    .kernel_physical_offset_address = 0x80208000,
+
     .prepare_kernel_cred_address = 0xc008d86c,
     .commit_creds_address = 0xc008d398,
     .remap_pfn_range_address = 0xc00e458c,
@@ -666,6 +811,8 @@ static supported_device supported_devices[] = {
     .device_id = DEVICE_SH04E_01_00_03,
     .device = "SH-04E",
     .build_id = "01.00.03",
+
+    .kernel_physical_offset_address = 0x80208000,
 
     .prepare_kernel_cred_address = 0xc008d99c,
     .commit_creds_address = 0xc008d4c8,
@@ -726,6 +873,17 @@ static supported_device supported_devices[] = {
   },
 
   {
+    .device_id = DEVICE_SO04D_9_1_C_0_475,
+    .device = "SO-04D",
+    .build_id = "9.1.C.0.475",
+    
+    .prepare_kernel_cred_address = 0xc0095cb0,
+    .commit_creds_address = 0xc00957d4,
+    .remap_pfn_range_address = 0xc010aaf8,
+    .ptmx_fops_address = 0xc0d024a0,
+  },
+
+  {
     .device_id = DEVICE_SO04E_10_1_1_D_0_179,
     .device = "SO-04E",
     .build_id = "10.1.1.D.0.179",
@@ -737,10 +895,32 @@ static supported_device supported_devices[] = {
   },
 
   {
+    .device_id = DEVICE_SO04E_10_1_1_D_2_26,
+    .device = "SO-04E",
+    .build_id = "10.1.1.D.2.26",
+
+    .prepare_kernel_cred_address = 0xc009d510,
+    .commit_creds_address = 0xc009d034,
+    .remap_pfn_range_address = 0xc0112fd0,
+    .ptmx_fops_address = 0xc0f392d8,
+  },
+
+  {
     .device_id = DEVICE_SO05D_7_0_D_1_137,
     .device = "SO-05D",
     .build_id = "7.0.D.1.137",
 
+  },
+
+  {
+    .device_id = DEVICE_SO05D_9_1_C_0_475,
+    .device = "SO-05D",
+    .build_id = "9.1.C.0.475",
+    
+    .prepare_kernel_cred_address = 0xc00958ac,
+    .commit_creds_address = 0xc00953d0,
+    .remap_pfn_range_address = 0xc010a6f4,
+    .ptmx_fops_address = 0xc0d01e50,
   },
 
   {
@@ -759,6 +939,17 @@ static supported_device supported_devices[] = {
     .prepare_kernel_cred_address = 0xc0098584,
     .commit_creds_address = 0xc00980a8,
     .remap_pfn_range_address = 0xc010e33c,
+    .ptmx_fops_address = 0xc0d030c8,
+  },
+
+  {
+    .device_id = DEVICE_SOL21_9_1_D_0_401,
+    .device = "SOL21",
+    .build_id = "9.1.D.0.401",
+
+    .prepare_kernel_cred_address = 0xc0098594,
+    .commit_creds_address = 0xc00980b8,
+    .remap_pfn_range_address = 0xc010e34c,
     .ptmx_fops_address = 0xc0d030c8,
   },
 
@@ -818,9 +1009,27 @@ static supported_device supported_devices[] = {
 
     .ptmx_fops_address = 0xc0dc0a10,
   },
-
+  
   {
-    .device_id = DEVICE_NOT_SUPPORTED,
+    .device_id = DEVICE_C5503_10_1_1_A_1_310,
+    .device = "C5503",
+    .build_id = "10.1.1.A.1.310",
+
+    .prepare_kernel_cred_address = 0xc0093cd8,
+    .commit_creds_address = 0xc00937fc,
+    .remap_pfn_range_address = 0xc0109798,
+    .ptmx_fops_address = 0xc0d37a98,
+  },
+  
+  {
+    .device_id = DEVICE_C5502_10_1_1_A_1_310,
+    .device = "C5502",
+    .build_id = "10.1.1.A.1.310",
+
+    .prepare_kernel_cred_address = 0xc0093cd8,
+    .commit_creds_address = 0xc00937fc,
+    .remap_pfn_range_address = 0xc0109798,
+    .ptmx_fops_address = 0xc0d37a98,
   },
 };
 
@@ -866,6 +1075,9 @@ device_get_symbol_address(device_symbol_t symbol)
   for (i = 0; i < n_supported_devices; i++) {
     if (supported_devices[i].device_id == device_id) {
       switch (symbol) {
+      case DEVICE_SYMBOL(kernel_physical_offset):
+	return supported_devices[i].kernel_physical_offset_address;
+
       case DEVICE_SYMBOL(prepare_kernel_cred):
 	return supported_devices[i].prepare_kernel_cred_address;
 
